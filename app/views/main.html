@@ -1,0 +1,85 @@
+<div ng-controller="MainCtrl" layout="column" ng-cloak>
+    <md-toolbar class="md-warn">
+        <div class="md-toolbar-tools">
+            <h2 class="md-flex">FB Page Scraper</h2>
+        </div>
+    </md-toolbar>
+    <md-content flex layout-padding>
+
+        <div layout-gt-md="row" layout="column" layout-sm="column">
+
+            <section layout-padding>
+                <fb:login-button show-faces="true" max-rows="1" size="large"></fb:login-button>
+            </section>
+            <section layout-padding>
+                <div layout="row" layout-align="start" flex>
+                    <md-input-container flex="30">
+                        <label>Pages</label>
+                        <md-select ng-model="pagesToScrape" multiple>
+                            <md-select-header>
+                                <input ng-model="searchTerm" type="search" placeholder="Search for a page.." class=" md-text">
+                            </md-select-header>
+                            <md-optgroup label="pages">
+                                <md-option ng-value="page" ng-repeat="page in availablePages |
+              filter:searchTerm">{{page.name}}</md-option>
+                            </md-optgroup>
+                        </md-select>
+                    </md-input-container>
+                    <div layout="row" layout-align="start center" class="grid-datepicker" layout-padding>
+                        <span>Begin Datum: </span>
+                        <md-datepicker ng-model="minDate" md-placeholder="Enter date"></md-datepicker>
+                    </div>
+                    {{minDate}}
+                    <div layout="row" layout-align="start center" class="grid-datepicker" layout-padding>
+                        <span>Eind Datum: </span>
+                        <md-datepicker ng-model="maxDate" md-placeholder="Enter date"></md-datepicker>
+                    </div>
+                </div>
+            </section>
+
+            <section  ng-if="!showExportButton">
+                <md-button class="md-raised md-primary" ng-click="getCall(minDate, maxDate)">Haal posts op</md-button>
+            </section>
+
+            <section ng-if="showExportButton">
+                  <md-button class="md-raised md-warn" ng-click="exportData()">Export</md-button>
+
+                <div id="exportable" ng-if="showExportButton">
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                                <th>created_time</th>
+                                <th>message</th>
+                                <th>type</th>
+                                <th>link</th>
+                                <th>permalink_url</th>
+                                <th>caption</th>
+                                <th>picture</th>
+                                <th>post id</th>
+                                <th>likes</th>
+                                <th>reactions</th>
+                                <th>comments</th>
+                                <th>shares</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in items">
+
+                                <td>{{item.created_time}}</td>
+                                <td>{{item.message}}</td>
+                                <td>{{item.type}}</td>
+                                <td>{{item.link}}</td>
+                                <td>{{item.permalink_url}}</td>
+                                <td>{{item.caption}}</td>
+                                <td>{{item.picture}}</td>
+                                <td>{{item.id}}</td>
+                                <td>{{item.likes}}</td>
+                                <td>{{item.reactions}}</td>
+                                <td>{{item.comments}}</td>
+                                <td>{{item.shares}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+    </md-content>
