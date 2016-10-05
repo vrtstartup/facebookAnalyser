@@ -68,6 +68,7 @@ angular.module('fbPageScraperApp')
             fbAPI.getItems(call).then(function(response) {
 
 
+console.log(response);
                 for (var i = 0; i < response.data.length; i++) {
                     $scope.pagesToScrape[key].items.push(response.data[i]);
                 }
@@ -119,7 +120,7 @@ angular.module('fbPageScraperApp')
         $scope.$watch(
             'brandsDone',
             function handleFooChange(newValue) {
-
+                
                 $scope.numberOfBrands = $scope.pagesToScrape.length;
                 if (newValue === $scope.numberOfBrands) {
                     angular.forEach($scope.pagesToScrape, function(value) {
