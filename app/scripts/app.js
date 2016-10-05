@@ -1,3 +1,4 @@
+/* globals FB */
 'use strict';
 
 /**
@@ -29,24 +30,6 @@ angular
             .otherwise({
                 redirectTo: '/'
             });
-    })
-    .config(function($mdDateLocaleProvider) {
-
-
-
-
-        // Example uses moment.js to parse and format dates.
-        // $mdDateLocaleProvider.parseDate = function(dateString) {
-        //   var m = moment(dateString, 'L', true);
-        //   return m.isValid() ? m.toDate() : new Date(NaN);
-        // };
-
-        // $mdDateLocaleProvider.formatDate = function(date) {
-        //     var m = moment(date);
-        //     return moment(date).format('YYYY-MM-DD');
-        //     //   return m.isValid() ? m.format('L') : '';
-        // };
-
     })
     .run(['$rootScope', '$window', 'srvAuth',
         function($rootScope, $window, srvAuth) {
@@ -99,7 +82,7 @@ angular
                 js = d.createElement('script');
                 js.id = id;
                 js.async = true;
-                js.src = "//connect.facebook.net/en_US/all.js";
+                js.src = '//connect.facebook.net/en_US/all.js';
 
                 ref.parentNode.insertBefore(js, ref);
 

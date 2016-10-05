@@ -1,3 +1,4 @@
+/* globals FB */
 'use strict';
 
 /**
@@ -61,13 +62,13 @@ angular.module('fbPageScraperApp')
 
             var _self = this;
 
-            FB.logout(function(response) {
+            FB.logout(function() {
                 $rootScope.$apply(function() {
                     $rootScope.user = _self.user = {};
                 });
             });
 
-        }
+        };
 
 
 

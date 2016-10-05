@@ -1,3 +1,4 @@
+/* globals saveAs, moment */
 'use strict';
 
 /**
@@ -16,7 +17,7 @@
 
 
 angular.module('fbPageScraperApp')
-    .controller('MainCtrl', ['$scope', 'fbAPI', '$http', '$q', function($scope, fbAPI, $http, $q) {
+    .controller('MainCtrl', ['$scope', 'fbAPI', function($scope, fbAPI) {
 
         $scope.availablePages = [{
             name: 'vtm',
@@ -45,13 +46,12 @@ angular.module('fbPageScraperApp')
         $scope.showExportButton = false;
 
 
-
         $scope.exportData = function() {
 
             var blob = new Blob([document.getElementById('exportable').innerHTML], {
-                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'
             });
-            saveAs(blob, "Report.xls");
+            saveAs(blob, 'FacebookAnalyse-' + moment($scope.minDate).format('YYYY-MM-DD') + '-' + moment($scope.maxDate).format('YYYY-MM-DD') + '.xls');
         };
 
 
@@ -72,7 +72,6 @@ angular.module('fbPageScraperApp')
                     $scope.pagesToScrape[key].items.push(response.data[i]);
                 }
                 if (response.paging && response.paging.next) {
-
                     $scope.getItems(response.paging.next, key);
                 } else {
 
@@ -86,7 +85,7 @@ angular.module('fbPageScraperApp')
         var setCounts = function(items) {
 
             var itemsProcessed = 0;
-            items.forEach((item, index, array) => {
+            items.forEach(function(item, index, array) {
 
                 if (item.comments && item.comments.summary.total_count) {
                     item.comments = item.comments.summary.total_count;
@@ -112,24 +111,25 @@ angular.module('fbPageScraperApp')
                 if (itemsProcessed === array.length) {
                     $scope.items = items;
                     $scope.addingUp = true;
-                     $scope.showExportButton = true;
+                    $scope.showExportButton = true;
                 }
             });
         };
 
         $scope.$watch(
-            "brandsDone",
-            function handleFooChange(newValue, oldValue) {
+            'brandsDone',
+            function handleFooChange(newValue) {
+
                 $scope.numberOfBrands = $scope.pagesToScrape.length;
                 if (newValue === $scope.numberOfBrands) {
-                    angular.forEach($scope.pagesToScrape, function(value, key, array) {
+                    angular.forEach($scope.pagesToScrape, function(value) {
 
                         $scope.items = $scope.items.concat(value.items);
                     });
                     setCounts($scope.items);
-                    
+
                 }
-               
+
             }
 
         );
@@ -138,14 +138,14 @@ angular.module('fbPageScraperApp')
         $scope.getCall = function(minDate, maxDate) {
             $scope.showExportButton = false;
             // var itemsProcessed = 0;
-            var prom = [];
+
 
 
             minDate = moment(minDate).format('YYYY-MM-DD');
             maxDate = moment(maxDate).format('YYYY-MM-DD');
 
 
-            angular.forEach($scope.pagesToScrape, function(value, key, array) {
+            angular.forEach($scope.pagesToScrape, function(value, key) {
 
                 var call = 'https://graph.facebook.com/v2.7/' + value.id + '/posts?fields=created_time,type,permalink_url,message,link,likes.summary%28true%29,reactions.summary%28true%29,shares,comments.summary%28true%29,object_id,description,picture,caption&since=' + minDate + '&until=' + maxDate;
 

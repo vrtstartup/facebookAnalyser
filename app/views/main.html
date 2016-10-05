@@ -29,7 +29,6 @@
                         <span>Begin Datum: </span>
                         <md-datepicker ng-model="minDate" md-placeholder="Enter date"></md-datepicker>
                     </div>
-                    {{minDate}}
                     <div layout="row" layout-align="start center" class="grid-datepicker" layout-padding>
                         <span>Eind Datum: </span>
                         <md-datepicker ng-model="maxDate" md-placeholder="Enter date"></md-datepicker>
@@ -37,12 +36,12 @@
                 </div>
             </section>
 
-            <section  ng-if="!showExportButton">
+            <section ng-if="!showExportButton">
                 <md-button class="md-raised md-primary" ng-click="getCall(minDate, maxDate)">Haal posts op</md-button>
             </section>
 
             <section ng-if="showExportButton">
-                  <md-button class="md-raised md-warn" ng-click="exportData()">Export</md-button>
+                <md-button class="md-raised md-warn" ng-click="exportData()">Export</md-button>
 
                 <div id="exportable" ng-if="showExportButton">
                     <table width="100%">
