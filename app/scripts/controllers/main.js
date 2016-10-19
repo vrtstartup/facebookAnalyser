@@ -57,7 +57,7 @@ angular.module('fbPageScraperApp')
 
         $scope.items = [];
         $scope.itemsToTable = [];
-        $scope.headers = ['created_time', 'description', 'type', 'link', 'permalink_url', 'caption', 'picture', 'id', 'likes', 'reactions', 'comments', 'shares'];
+        $scope.headers = ['created_time', 'description', 'type', 'link', 'permalink_url', 'caption', 'name', 'picture', 'id', 'likes', 'reactions', 'comments', 'shares'];
         $scope.prom = [];
         $scope.brandsDone = 0;
 
@@ -68,7 +68,7 @@ angular.module('fbPageScraperApp')
             fbAPI.getItems(call).then(function(response) {
 
 
-console.log(response);
+                console.log(response);
                 for (var i = 0; i < response.data.length; i++) {
                     $scope.pagesToScrape[key].items.push(response.data[i]);
                 }
@@ -120,7 +120,7 @@ console.log(response);
         $scope.$watch(
             'brandsDone',
             function handleFooChange(newValue) {
-                
+
                 $scope.numberOfBrands = $scope.pagesToScrape.length;
                 if (newValue === $scope.numberOfBrands) {
                     angular.forEach($scope.pagesToScrape, function(value) {
@@ -148,7 +148,7 @@ console.log(response);
 
             angular.forEach($scope.pagesToScrape, function(value, key) {
 
-                var call = 'https://graph.facebook.com/v2.7/' + value.id + '/posts?fields=created_time,type,permalink_url,message,link,likes.summary%28true%29,reactions.summary%28true%29,shares,comments.summary%28true%29,object_id,description,picture,caption&since=' + minDate + '&until=' + maxDate;
+                var call = 'https://graph.facebook.com/v2.7/' + value.id + '/posts?fields=name,created_time,type,permalink_url,message,link,likes.summary%28true%29,reactions.summary%28true%29,shares,comments.summary%28true%29,object_id,description,picture,caption&since=' + minDate + '&until=' + maxDate;
 
                 $scope.getItems(call, key);
 
