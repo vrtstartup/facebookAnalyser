@@ -39,6 +39,10 @@ angular.module('fbPageScraperApp')
             name: 'standaard',
             id: 7133374462,
             items: []
+        }, {
+            name: 'demorgen',
+            id: 231742536958,
+            items: []
         }];
 
 
